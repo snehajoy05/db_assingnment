@@ -1,0 +1,86 @@
+create table "user"(
+"created_at" TIMESTAMP not null default now(),
+"id" uuid not null default uuid_generate_v4(),
+"name" character varying not null,
+"address" character varying not null,
+"phone_number" character varying,
+"email" character varying not null,
+"password" character varying not null,
+constraint "PK_3c2bc72f03fd5abbbc5ac169475" primary key ("id"));
+drop table "User";
+select * from "user";
+
+
+
+
+Create table "product"(
+"created_at" TIMESTAMP not null default now(),
+"name" character varying not null,
+"description" character varying not null,
+"sku" uuid not null default uuid_generate_v4(),
+"product_category" character varying not null,
+constraint "PK_3c2bc72f03fd5abbbc5ac169476" primary key ("sku"));
+
+select * from "product";
+
+
+
+create table "order"(
+"created_at" TIMESTAMP not null default now(),
+"order_id" uuid not null default uuid_generate_v4(),
+"order_address" character varying not null,
+constraint "PK_3c2bc72f03fd5abbbc5ac169485" primary key ("order_id"));
+
+select * from "order";
+
+create table "order_detail" (
+"sku" uuid not null,
+"order_id" uuid not null,
+"count" character varying not null);
+
+select * from "order_detail";
+INSERT INTO public."user"
+("name", address, phone_number, email, "password")
+values
+('Virat', 'dlf', '985457', 'ViratKing@18', 'virat123'),
+('Sachin','kolkata','54525','Legend@Master4','sachin345'),
+('Sourav','Banglore','54585','DDadalife@45','sourav345');
+
+INSERT INTO public."product"
+( "name", description, product_category)
+values
+( 'redmi', 'mobile', 'electronics'),
+( 'diary milk', 'chocolate', 'food'),
+( 'pepsi', 'drink', 'soft drink'),
+( 'dove', 'soap', 'toiletries'),
+( 'tomato', 'food', 'vegetables');	
+
+INSERT INTO public."order"
+( order_address)
+values
+('dlf'),
+('banglore'),
+('kolkata'),
+('delhi'),
+('chennai');
+
+select * from product;
+select* from product where name='redmi';
+INSERT INTO public.order_detail
+(sku, order_id, count)
+VALUES
+((select sku from product  where name = 'redmi'), (select order_id from "order"  where order_address = 'dlf'),2),
+((select sku from product  where name = 'diary milk'), (select order_id from "order"  where order_address= 'banglore'),1),
+((select sku  from product  where name = 'pepsi'), (select order_id from "order"  where order_address = 'kolkata'),2),
+((select sku  from product where name = 'dove'), (select order_id from "order"  where order_address = 'delhi'),2),
+((select sku  from product where name = 'tomato'), (select order_id from "order"  where order_address = 'chennai'),1);
+
+select * from order_detail od ;
+
+
+CREATE INDEX idx_product_category ON product (product_category);
+CREATE INDEX idx_product_name ON product (name);
+
+
+
+
